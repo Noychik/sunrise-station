@@ -184,3 +184,67 @@
       - PowerCageMedium
   - type: AccessReader
     access: [["Security"]]
+
+- type: entity
+  id: MechSpaceMoth
+  parent: [ BaseMechPod, BaseRestrictedContraband ]
+  name: Space Moth
+  description: A small submarine with a rocket engine instead of a propeller and a gravity cushion.
+  suffix: Filled
+  components:
+  - type: Sprite
+    drawdepth: Mobs
+    sprite: _Sunrise/Objects/Specific/Mech/space_moth.rsi
+    scale: 1.08, 1.08
+    layers:
+    - state: space_moth
+      map: ["enum.MechVisualLayers.Base"]
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeCircle
+          radius: 0.9
+        density: 1000
+        mask:
+          - FlyingMobMask
+        layer:
+          - FlyingMobLayer
+  - type: AmbientSound
+    range: 4
+    volume: -4
+    sound:
+      path: /Audio/Effects/shuttle_thruster.ogg
+  - type: Mech
+    baseState: space_moth
+    openState: space_moth_open
+    brokenState: space_moth_broken
+    mechToPilotDamageMultiplier: 0.5
+    maxEquipmentAmount: 2
+    airtight: true
+    pilotWhitelist:
+      components:
+        - HumanoidAppearance
+    pilotBlacklist:
+      species:
+      - Felinid
+    equipmentWhitelist:
+      tags:
+      - IndustrialMech
+  - type: Reflect
+    reflectProb: 0.15
+    spread: 90
+    soundOnReflect: /Audio/Weapons/block_metal1.ogg
+    reflects:
+    - NonEnergy
+  - type: MobThresholds
+    currentThresholdState: Alive
+    thresholds:
+      0: Alive
+      340: Critical
+    showOverlays: false
+    allowRevives: true
+  - type: ContainerFill
+    containers:
+      mech-battery-slot:
+      - PowerCageMedium
