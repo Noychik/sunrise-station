@@ -248,3 +248,73 @@
     containers:
       mech-battery-slot:
       - PowerCageMedium
+- type: entity
+  id: MechPrometheus
+  parent: [ BaseMechPod, BaseRestrictedContraband ]
+  name: prometheus
+  description: prometheus
+  suffix: Filled
+  components:
+  - type: Sprite
+    drawdepth: Mobs
+    sprite: _Sunrise/Objects/Specific/Mech/prometheus.rsi
+    scale: 2.16, 2.16
+    layers:
+    - state: prometheus
+      map: ["enum.MechVisualLayers.Base"]
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+            !type:PhysShapeAabb
+            bounds: "-0.7,-2.9,0.7,2.9"
+        density: 500
+        mask:
+          - FlyingMobMask
+        layer:
+          - FlyingMobLayer
+  - type: AmbientSound
+    range: 4
+    volume: -4
+    sound:
+      path: /Audio/Effects/shuttle_thruster.ogg
+  - type: Mech
+    baseState: prometheus
+    openState: prometheus_open
+    brokenState: prometheus_broken
+    mechToPilotDamageMultiplier: 0.5
+    maxEquipmentAmount: 5
+    airtight: true
+    pilotWhitelist:
+      components:
+        - HumanoidAppearance
+    pilotBlacklist:
+      species:
+      - Felinid
+    equipmentWhitelist:
+      tags:
+      - IndustrialMech
+  - type: Reflect
+    reflectProb: 0.15
+    spread: 90
+    soundOnReflect: /Audio/Weapons/block_metal1.ogg
+    reflects:
+    - NonEnergy
+  - type: MobThresholds
+    currentThresholdState: Alive
+    thresholds:
+      0: Alive
+      340: Critical
+    showOverlays: false
+    allowRevives: true
+  - type: ContainerFill
+    containers:
+      mech-battery-slot:
+      - PowerCageMedium
+  - type: MovementSpeedModifier
+    baseWalkSpeed: 0.5
+    baseSprintSpeed: 1
+    friction: 5
+    weightlessFriction: 6.5
+    weightlessAcceleration: 1.5
+    weightlessModifier: 4

@@ -1,0 +1,20 @@
+{
+  "copyright" : "By Kamenshik975",
+  "license" : "CC-BY-SA-3.0",
+  "version": 1,
+  "size": {
+    "x": 64,
+    "y": 96
+  },
+  "states": [
+    {
+      "name": "prometheus"
+    },
+    {
+      "name": "prometheus_broken"
+    },
+    {
+      "name": "prometheus_open"
+    }
+  ]
+}

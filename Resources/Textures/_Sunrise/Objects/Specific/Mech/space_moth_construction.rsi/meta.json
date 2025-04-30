@@ -1,0 +1,62 @@
+{
+    "version": 1,
+    "license": "CC-BY-SA-3.0",
+    "copyright": "Создано kamenshik975 (github, discord) для Sunrise Station",
+    "size": {
+      "x": 64,
+      "y": 64
+    },
+    "states": [
+      {
+        "name": "space_moth_base"
+      },
+      {
+        "name": "space_moth_base+o"
+      },
+      {
+        "name": "space_moth_chassis"
+      },
+      {
+        "name": "space_moth_state1"
+      },
+      {
+        "name": "space_moth_state2"
+      },
+      {
+        "name": "space_moth_state3"
+      },
+      {
+        "name": "space_moth_state4"
+      },
+      {
+        "name": "space_moth_state5"
+      },
+      {
+        "name": "space_moth_state6"
+      },
+      {
+        "name": "space_moth_state7"
+      },
+      {
+        "name": "space_moth_state8"
+      },
+      {
+        "name": "space_moth_state9"
+      },
+      {
+        "name": "space_moth_state10"
+      },
+      {
+        "name": "space_moth_thruster"
+      },
+      {
+        "name": "space_moth_thruster+o"
+      },
+      {
+        "name": "space_moth_wings"
+      },
+      {
+        "name": "space_moth_wings+o"
+      }
+    ]
+ }
