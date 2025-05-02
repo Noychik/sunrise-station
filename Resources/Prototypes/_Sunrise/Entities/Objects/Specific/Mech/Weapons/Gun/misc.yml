@@ -41,8 +41,8 @@
       - SemiAuto
     soundGunshot:
       path: /Audio/Weapons/Guns/Gunshots/laser_cannon.ogg
-  - type: ProjectileBatteryAmmoProvider
-    proto: BulletLaser
+  - type: HitscanBatteryAmmoProvider
+    proto: BulletRedMediumLaser
     fireCost: 100
   - type: Appearance
   - type: AmmoCounter
