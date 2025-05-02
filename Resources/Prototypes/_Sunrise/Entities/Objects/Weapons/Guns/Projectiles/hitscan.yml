@@ -619,9 +619,8 @@
   id: BulletKineticTrash
   damage:
     types:
-        Blunt: 15
-        Structural: 25
-  staminaDamage: 10
+      Blunt: 15
+      Structural: 25
   collisionMask: BulletImpassable
   reflective: NonEnergy
   bulletTracer:
