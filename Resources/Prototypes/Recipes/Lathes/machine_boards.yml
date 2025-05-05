@@ -307,6 +307,17 @@
   result: SalvageMagnetMachineCircuitboard
 
 # Shuttle
+
+- type: latheRecipe
+  parent: BaseGoldCircuitboardRecipe
+  id: SpaceMothCentralElectronics
+  result: SpaceMothCentralElectronics
+
+- type: latheRecipe
+  parent: BaseGoldCircuitboardRecipe
+  id: SpaceMothPeripheralsElectronics
+  result: SpaceMothPeripheralsElectronics
+
 - type: latheRecipe
   parent: [ BaseCircuitboardRecipe, BaseSupplyMachineRecipeCategory ]
   id: ThrusterMachineCircuitboard

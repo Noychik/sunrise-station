@@ -466,3 +466,36 @@
     Plasma: 600
     Glass: 600
 
+
+#Pods
+
+#Space Moth
+
+- type: latheRecipe
+  id: SpaceMothTruster
+  result: SpaceMothTruster
+  categories:
+  - SpaceMoth
+  completetime: 30
+  materials:
+    Steel: 950
+
+- type: latheRecipe
+  id: SpaceMothWings
+  result: SpaceMothWings
+  categories:
+  - SpaceMoth
+  completetime: 30
+  materials:
+    Steel: 950
+
+- type: latheRecipe
+  id: SpaceMothBase
+  result: SpaceMothBase
+  categories:
+  - SpaceMoth
+  completetime: 60
+  materials:
+    Steel: 2500
+    Glass: 1500
+    Plastic: 100

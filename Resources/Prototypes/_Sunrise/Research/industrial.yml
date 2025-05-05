@@ -90,3 +90,21 @@
   cost: 5000
   recipeUnlocks:
   - BasicThermals
+
+- type: technology
+  id: SpaceMoth
+  name: research-technology-space-moth
+  icon:
+    sprite: _Sunrise/Objects/Specific/Mech/space_moth.rsi
+    state: spacemoth
+  discipline: Industrial
+  tier: 2
+  cost: 5000
+  recipeUnlocks:
+  - SpaceMothTruster
+  - SpaceMothWings
+  - SpaceMothBase
+  - SpaceMothPeripheralsControlModule
+  - SpaceMothCentralControlModule
+  technologyPrerequisites:
+  - RipleyAPLU

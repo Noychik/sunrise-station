@@ -1367,3 +1367,16 @@
       Capacitor: 1
       Manipulator: 1
       Cable: 1
+##- type: entity
+ ## id: PodfabricCircuitboard
+ ## parent: BaseMachineCircuitboard
+##  name: Pod Fabric machine board
+ ## description: A machine printed circuit board for an fabric of pods.
+ ## components:
+ ##   - type: MachineBoard
+  ##    prototype: PodFabric
+  ##    stackRequirements:
+  ##      MatterBin: 3
+   ##     Manipulator: 3
+  ##      Glass: 2
+   ##     Steel: 4

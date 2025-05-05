@@ -6,6 +6,8 @@
 - type: latheRecipePack
   id: CircuitDynamicSunrise
   recipes:
+  - SpaceMothPeripheralsControlModule
+  - SpaceMothCentralControlModule
   - GygaxCentralElectronics
   - GygaxPeripheralsElectronics
   - GygaxTargetingElectronics

@@ -17,37 +17,46 @@
         "name": "space_moth_chassis"
       },
       {
-        "name": "space_moth_state1"
+        "name": "space_moth0"
       },
       {
-        "name": "space_moth_state2"
+        "name": "space_moth1"
       },
       {
-        "name": "space_moth_state3"
+        "name": "space_moth2"
       },
       {
-        "name": "space_moth_state4"
+        "name": "space_moth3"
       },
       {
-        "name": "space_moth_state5"
+        "name": "space_moth4"
       },
       {
-        "name": "space_moth_state6"
+        "name": "space_moth5"
       },
       {
-        "name": "space_moth_state7"
+        "name": "space_moth6"
       },
       {
-        "name": "space_moth_state8"
+        "name": "space_moth7"
       },
       {
-        "name": "space_moth_state9"
+        "name": "space_moth8"
       },
       {
-        "name": "space_moth_state10"
+        "name": "space_moth9"
       },
       {
-        "name": "space_moth_state11"
+        "name": "space_moth10"
+      },
+      {
+        "name": "space_moth11"
+      },
+      {
+        "name": "space_moth12"
+      },
+      {
+        "name": "space_moth13"
       },
       {
         "name": "space_moth_thruster"

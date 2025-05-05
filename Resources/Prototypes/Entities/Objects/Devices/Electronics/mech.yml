@@ -261,7 +261,7 @@
     - type: GuideHelp
       guides:
       - Robotics
-      
+
 # Phazon
 
 - type: entity
@@ -313,3 +313,34 @@
     - type: GuideHelp
       guides:
       - Robotics
+
+#Pods
+
+#Space Moth
+- type: entity
+  id: SpaceMothCentralElectronics
+  parent: BaseElectronics
+  name: clarke central control module
+  description: The electrical control center for the Clarke mech.
+  components:
+    - type: Item
+      storedRotation: 0
+    - type: Sprite
+      sprite: Objects/Misc/module.rsi
+      state: mainboard
+    - type: Tag
+      tags:
+      - SpaceMothCentralControlModule
+
+- type: entity
+  id: SpaceMothPeripheralsElectronics
+  parent: BaseElectronics
+  name: space moth peripherals control module
+  description: The electrical peripherals control for the Clarke mech.
+  components:
+    - type: Sprite
+      sprite: Objects/Misc/module.rsi
+      state: id_mod
+    - type: Tag
+      tags:
+      - SpaceMothPeripheralsControlModule

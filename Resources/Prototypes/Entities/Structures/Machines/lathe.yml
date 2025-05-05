@@ -330,6 +330,7 @@
     - MechParts
     - MechEquipment
     - RoboticsDynamicSunrise # Sunrise-Add
+    - PodDynamicKamenshik    # Kamenshik975-Add
   - type: MaterialStorage
     whitelist:
       tags:
