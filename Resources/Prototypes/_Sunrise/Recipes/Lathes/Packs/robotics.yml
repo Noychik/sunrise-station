@@ -61,12 +61,6 @@
   - PaintClarkeOrangey
   - Nanopaste
   - HandheldRoboAnalyzer
-
-- type: latheRecipePack
-  id: PodDynamicKamenshik975
-  recipes:
-  - SpaceMothTruster
+  - SpaceMothThruster
   - SpaceMothWings
   - SpaceMothBase
-  - SpaceMothPeripheralsControlModule
-  - SpaceMothCentralControlModule

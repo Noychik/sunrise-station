@@ -1124,3 +1124,97 @@
     graph: Phazon
     node: start
     defaultTarget: phazon
+
+
+- type: entity
+  id: BaseSpaceMothPart
+  parent: BaseMechPart
+  abstract: true
+  components:
+  - type: Sprite
+    drawdepth: Items
+    noRot: false
+    sprite: _Sunrise/Objects/Specific/Mech/space_moth_building.rsi
+
+- type: entity
+  id: BaseSpaceMothPartItem
+  parent: BaseSpaceMothPart
+  abstract: true
+  components:
+  - type: Item
+    size: Ginormous
+
+- type: entity
+  parent: BaseSpaceMothPart
+  id: SpaceMothBase
+  name: Space Moth base
+  description: base of Space Moth
+  components:
+  - type: Appearance
+  - type: ItemMapper
+    mapLayers:
+      space_moth_thruster+o:
+        whitelist:
+          tags:
+          - SpaceMothThruster
+      space_moth_wings+o:
+        whitelist:
+          tags:
+          - SpaceMothWings
+    sprite: _Sunrise/Objects/Specific/Mech/space_moth_building.rsi
+  - type: ContainerContainer
+    containers:
+      mech-assembly-container: !type:Container
+  - type: MechAssembly
+    finishedPrototype: SpaceMothChassis
+    requiredParts:
+      SpaceMothThruster: false
+      SpaceMothWings: false
+  - type: Sprite
+    state: space_moth_base+o
+    noRot: true
+
+- type: entity
+  parent: BaseSpaceMothPartItem
+  id: SpaceMothThruster
+  name: Space Moth Truster
+  description: The thruster of the Space Moth
+  components:
+  - type: Sprite
+    state: space_moth_thruster
+  - type: Tag
+    tags:
+    - SpaceMothThruster
+
+- type: entity
+  parent: BaseSpaceMothPartItem
+  id: SpaceMothWings
+  name: Space Moth Wings
+  description: Wings.
+  components:
+  - type: Sprite
+    state: space_moth_wings
+  - type: Tag
+    tags:
+    - SpaceMothWings
+
+
+- type: entity
+  id: SpaceMothChassis
+  parent: BaseSpaceMothPart
+  name: Space Moth Chassis
+  description: An in-progress construction of the Space Moth
+  components:
+  - type: Appearance
+  - type: ContainerContainer
+    containers:
+      battery-container: !type:Container
+  - type: MechAssemblyVisuals
+    statePrefix: space_moth
+  - type: Sprite
+    noRot: true
+    state: space_moth0
+  - type: Construction
+    graph: SpaceMoth
+    node: start
+    defaultTarget: spacemoth

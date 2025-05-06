@@ -472,8 +472,8 @@
 #Space Moth
 
 - type: latheRecipe
-  id: SpaceMothTruster
-  result: SpaceMothTruster
+  id: SpaceMothThruster
+  result: SpaceMothThruster
   categories:
   - SpaceMoth
   completetime: 30

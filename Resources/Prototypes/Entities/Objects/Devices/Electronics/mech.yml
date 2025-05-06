@@ -320,7 +320,7 @@
 - type: entity
   id: SpaceMothCentralElectronics
   parent: BaseElectronics
-  name: clarke central control module
+  name: space moth central control module
   description: The electrical control center for the Clarke mech.
   components:
     - type: Item

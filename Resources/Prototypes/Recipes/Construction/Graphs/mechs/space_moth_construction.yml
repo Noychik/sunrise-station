@@ -7,7 +7,7 @@
     - to: spacemoth
       steps:
       - tool: Anchoring
-        #doAfter: 1
+        doAfter: 1
         completed:
         - !type:VisualizerDataInt
           key: "enum.MechAssemblyVisuals.State"
@@ -20,7 +20,7 @@
           data: 2
 
       - tool: Cutting
-        doAfter: 2
+        doAfter: 1
         completed:
         - !type:VisualizerDataInt
           key: "enum.MechAssemblyVisuals.State"
@@ -72,14 +72,14 @@
           data: 8
 
       - tool: Screwing
-        doAfter: 8
+        doAfter: 1
         completed:
         - !type:VisualizerDataInt
           key: "enum.MechAssemblyVisuals.State"
           data: 9
 
       - tool: Screwing
-        doAfter: 9
+        doAfter: 1
         completed:
         - !type:VisualizerDataInt
           key: "enum.MechAssemblyVisuals.State"
@@ -93,14 +93,14 @@
           data: 11
 
       - tool: Anchoring
-        doAfter: 11
+        doAfter: 1
         completed:
         - !type:VisualizerDataInt
           key: "enum.MechAssemblyVisuals.State"
           data: 12
 
       - tool: Welding
-        doAfter: 12
+        doAfter: 1
         completed:
         - !type:VisualizerDataInt
           key: "enum.MechAssemblyVisuals.State"
@@ -130,9 +130,9 @@
         completed:
         - !type:VisualizerDataInt
           key: "enum.MechAssemblyVisuals.State"
-          data: 13
+          data: 15
 
   - node: spacemoth
     actions:
     - !type:BuildMech
-      mechPrototype: SpaceMoth
+      mechPrototype: MechSpaceMoth

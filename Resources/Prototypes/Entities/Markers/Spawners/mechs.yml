@@ -110,7 +110,7 @@
   - type: ConditionalSpawner
     prototypes:
       - MechDurandBattery
-      
+
 - type: entity
   name: Marauder Spawner
   id: SpawnMechMarauder
@@ -270,3 +270,18 @@
   - type: ConditionalSpawner
     prototypes:
       - MechSecPod
+
+- type: entity
+  name: Space Moth Spawner
+  suffix: Filled
+  id: SpawnMechSpaceMothFilled
+  parent: MarkerBase
+  components:
+  - type: Sprite
+    layers:
+      - state: green
+      - sprite: _Sunrise/Objects/Specific/Mech/space_moth.rsi
+        state: space_moth
+  - type: ConditionalSpawner
+    prototypes:
+      - SpaceMoth

@@ -171,6 +171,9 @@
 # Mechs
 
 - type: Tag
+  id: SpaceMoth
+
+- type: Tag
   id: Ripley
 
 - type: Tag
@@ -187,6 +190,18 @@
 
 - type: Tag
   id: Phazon
+
+- type: Tag
+  id: SpaceMothCentralControlModule
+
+- type: Tag
+  id: SpaceMothPeripheralsControlModule
+
+- type: Tag
+  id: SpaceMothThruster
+
+- type: Tag
+  id: SpaceMothWings
 
 - type: Tag
   id: ClarkeCentralControlModule

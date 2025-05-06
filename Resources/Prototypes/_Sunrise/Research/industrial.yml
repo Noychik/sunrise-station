@@ -96,15 +96,15 @@
   name: research-technology-space-moth
   icon:
     sprite: _Sunrise/Objects/Specific/Mech/space_moth.rsi
-    state: spacemoth
+    state: space_moth
   discipline: Industrial
   tier: 2
-  cost: 5000
+  cost: 7500
   recipeUnlocks:
-  - SpaceMothTruster
+  - SpaceMothThruster
   - SpaceMothWings
   - SpaceMothBase
-  - SpaceMothPeripheralsControlModule
-  - SpaceMothCentralControlModule
+  - SpaceMothPeripheralsElectronics
+  - SpaceMothCentralElectronics
   technologyPrerequisites:
   - RipleyAPLU

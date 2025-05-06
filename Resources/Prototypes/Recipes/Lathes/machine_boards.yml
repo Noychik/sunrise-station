@@ -309,16 +309,6 @@
 # Shuttle
 
 - type: latheRecipe
-  parent: BaseGoldCircuitboardRecipe
-  id: SpaceMothCentralElectronics
-  result: SpaceMothCentralElectronics
-
-- type: latheRecipe
-  parent: BaseGoldCircuitboardRecipe
-  id: SpaceMothPeripheralsElectronics
-  result: SpaceMothPeripheralsElectronics
-
-- type: latheRecipe
   parent: [ BaseCircuitboardRecipe, BaseSupplyMachineRecipeCategory ]
   id: ThrusterMachineCircuitboard
   result: ThrusterMachineCircuitboard
@@ -544,3 +534,23 @@
     Gold: 100
     Silver: 100
     Diamond: 100  #sunrise-end
+
+- type: latheRecipe
+  parent: BaseGoldCircuitboardRecipe
+  id: SpaceMothCentralElectronics
+  result: SpaceMothCentralElectronics
+  materials:
+    Steel: 100
+    Glass: 500
+    Silver: 100
+    Gold: 100
+
+- type: latheRecipe
+  parent: BaseGoldCircuitboardRecipe
+  id: SpaceMothPeripheralsElectronics
+  result: SpaceMothPeripheralsElectronics
+  materials:
+    Steel: 100
+    Glass: 500
+    Silver: 100
+    Gold: 100  #sunrise-end
