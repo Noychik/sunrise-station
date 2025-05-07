@@ -270,6 +270,14 @@
     sprite: _Sunrise/Structures/Doors/Airlocks/Glass/triple_medical.rsi
 
 - type: entity
+  id: TripleGlassAirlockMiner
+  parent: [ TripleGlassAirlock, AirlockMiningGlass ]
+  suffix: Mining(Salvage)
+  components:
+  - type: Sprite
+    sprite: _Sunrise/Structures/Doors/Airlocks/Glass/triple_salvage.rsi
+
+- type: entity
   id: TripleGlassAirlockScience
   parent: [ TripleGlassAirlock, AirlockScienceGlass ]
   suffix: Science
