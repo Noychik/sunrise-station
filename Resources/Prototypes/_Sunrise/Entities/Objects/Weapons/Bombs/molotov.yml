@@ -1,0 +1,48 @@
+- type: entity
+  parent: BaseItem
+  id: MolotovCocktailGrenade
+  name: molotov cocktail
+  description: The simplest incendiary grenade, a common weapon of the proletariat.
+  components:
+  - type: Sprite
+    sprite: _Sunrise/Objects/Weapons/Grenades/molotovcocktailgrenade.rsi
+    layers:
+    - state: base
+      map: ["enum.TriggerVisualLayers.Base"]
+  - type: Item
+    sprite: _Sunrise/Objects/Weapons/Grenades/molotovcocktailgrenade.rsi
+  - type: OnUseTimerTrigger
+    delay: 5
+    examinable: false
+    initialBeepDelay: 0
+    beepSound:
+      path: /Audio/Weapons/Guns/MagOut/pistol_magout.ogg
+      params:
+        volume: 1
+  - type: RandomTimerTrigger
+    min: 2
+    max: 5
+  - type: Explosive # Weak explosion in a very small radius. Ignites surrounding entities.
+    explosionType: FireBomb
+    totalIntensity: 25
+    intensitySlope: 5
+    maxIntensity: 3
+    canCreateVacuum: false
+  - type: ExplodeOnTrigger
+  - type: SpawnOnTrigger
+    proto: FloorBurningGroundEntity
+  - type: Appearance
+  - type: AnimationPlayer
+  - type: TimerTriggerVisuals
+    unprimedSprite: base
+  - type: Damageable
+    damageContainer: Inorganic
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 50
+      behaviors:
+      - !type:DoActsBehavior
+        acts: ["Destruction"]
+      - !type:ExplodeBehavior
