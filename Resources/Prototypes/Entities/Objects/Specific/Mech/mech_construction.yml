@@ -1177,7 +1177,7 @@
 - type: entity
   parent: BaseSpaceMothPartItem
   id: SpaceMothThruster
-  name: Space Moth Truster
+  name: Space Moth Thruster
   description: The thruster of the Space Moth
   components:
   - type: Sprite

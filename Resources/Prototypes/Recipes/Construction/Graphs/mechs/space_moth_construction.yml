@@ -8,6 +8,7 @@
       steps:
       - tool: Anchoring
         doAfter: 1
+
         completed:
         - !type:VisualizerDataInt
           key: "enum.MechAssemblyVisuals.State"
@@ -26,7 +27,7 @@
           key: "enum.MechAssemblyVisuals.State"
           data: 3
 
-      - tag: SpaceMothCentralElectronics
+      - tag: SpaceMothCentralControlModule
         name: space moth central control module
         icon:
           sprite: "Objects/Misc/module.rsi"
@@ -36,7 +37,10 @@
           key: "enum.MechAssemblyVisuals.State"
           data: 4
 
-      - tag: SpaceMothPeripheralsControlModule
+      - tool: Screwing
+        doAfter: 1
+
+      - tag: SpaceMothPeripheralsControlModulew
         name: space moth peripherals control module
         icon:
           sprite: "Objects/Misc/module.rsi"
@@ -46,10 +50,13 @@
           key: "enum.MechAssemblyVisuals.State"
           data: 5
 
+      - tool: Screwing
+        doAfter: 1
+
       - material: Steel
         amount: 5
         completed:
-        - !type:VisualizerDataInt
+        - !type:VisualizerDataIntcompleted
           key: "enum.MechAssemblyVisuals.State"
           data: 6
 
@@ -64,8 +71,7 @@
           key: "enum.MechAssemblyVisuals.State"
           data: 7
 
-      - tool: Screwing
-        doAfter: 1
+
         completed:
         - !type:VisualizerDataInt
           key: "enum.MechAssemblyVisuals.State"
