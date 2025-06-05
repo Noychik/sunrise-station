@@ -250,7 +250,7 @@
     walkModifier: 0.9
     sprintModifier: 0.9
   #Shoulder mounted flashlight
-  - type: ToggleableLightVisuals
+  - type: ToggleableVisuals
     spriteLayer: light
     clothingVisuals:
       outerClothing:
@@ -259,6 +259,7 @@
       outerClothing-vox:
       - state: equipped-OUTERCLOTHING-light-vox
         shader: unshaded
+  - type: ItemTogglePointLight
   - type: Appearance
   - type: HandheldLight
     addPrefix: false
@@ -349,6 +350,19 @@
     tags:
     - FullBodyOuter
     - WhitelistChameleon
+  - type: Battery
+    maxCharge: 40
+    startingCharge: 40
+  - type: BatterySelfRecharger
+    autoRecharge: true
+    autoRechargeRate: 40
+    autoRechargePause: true
+    autoRechargePauseTime: 9
+  - type: EnergyDomeGenerator
+    damageEnergyDraw: 1
+    domePrototype: EnergyDomeCult
+  - type: UseDelay
+    delay: 10.0
   # Sunrise-End
 
 - type: entity

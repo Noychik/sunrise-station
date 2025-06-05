@@ -30,9 +30,10 @@ namespace Content.Server.Power.EntitySystems
         private readonly PowerState _powerState = new();
         private readonly HashSet<PowerNet> _powerNetReconnectQueue = new();
         private readonly HashSet<ApcNet> _apcNetReconnectQueue = new();
+        private float _updateAccumulator;
+        private const float UpdateInterval = 0.5f;
 
         private EntityQuery<ApcPowerReceiverBatteryComponent> _apcBatteryQuery;
-        private EntityQuery<AppearanceComponent> _appearanceQuery;
         private EntityQuery<BatteryComponent> _batteryQuery;
 
         private BatteryRampPegSolver _solver = new();
@@ -42,7 +43,6 @@ namespace Content.Server.Power.EntitySystems
             base.Initialize();
 
             _apcBatteryQuery = GetEntityQuery<ApcPowerReceiverBatteryComponent>();
-            _appearanceQuery = GetEntityQuery<AppearanceComponent>();
             _batteryQuery = GetEntityQuery<BatteryComponent>();
 
             UpdatesAfter.Add(typeof(NodeGroupSystem));
@@ -276,6 +276,12 @@ namespace Content.Server.Power.EntitySystems
         {
             base.Update(frameTime);
 
+            _updateAccumulator += frameTime;
+            if (_updateAccumulator < UpdateInterval)
+                return;
+
+            _updateAccumulator = 0;
+
             ReconnectNetworks();
 
             // Synchronize batteries
@@ -287,12 +293,117 @@ namespace Content.Server.Power.EntitySystems
             // Synchronize batteries, the other way around.
             RaiseLocalEvent(new NetworkBatteryPostSync());
 
-            // Send events where necessary.
-            // TODO: Instead of querying ALL power components every tick, and then checking if an event needs to be
-            // raised, should probably assemble a list of entity Uids during the actual solver steps.
-            UpdateApcPowerReceiver(frameTime);
-            UpdatePowerConsumer();
-            UpdateNetworkBattery();
+            var apcPowerReceiverQuery = AllEntityQuery<ApcPowerReceiverComponent>();
+            while (apcPowerReceiverQuery.MoveNext(out var uid, out var apcReceiver))
+            {
+                UpdateApcPowerReceiverSingle(uid, apcReceiver, frameTime);
+            }
+
+            var powerConsumererQuery = AllEntityQuery<PowerConsumerComponent>();
+            while (powerConsumererQuery.MoveNext(out var uid, out var consumer))
+            {
+                UpdatePowerConsumerSingle(uid, consumer);
+            }
+
+            var powerNetworkBatteryQuery = AllEntityQuery<PowerNetworkBatteryComponent>();
+            while (powerNetworkBatteryQuery.MoveNext(out var uid, out var powerNetBattery))
+            {
+                UpdateNetworkBatterySingle(uid, powerNetBattery);
+            }
+        }
+
+        private void UpdateApcPowerReceiverSingle(EntityUid uid, ApcPowerReceiverComponent apcReceiver, float frameTime)
+        {
+            var mapId = Transform(uid).MapUid;
+            var isAlwaysPowered = HasComp<AlwaysPoweredMapComponent>(mapId);
+
+            var powered = isAlwaysPowered || IsPoweredCalculate(apcReceiver);
+
+            MetaDataComponent? metadata = null;
+
+            if (_apcBatteryQuery.TryComp(uid, out var apcBattery) && _batteryQuery.TryComp(uid, out var battery))
+            {
+                apcReceiver.Load = apcBattery.IdleLoad;
+
+                var requireBattery = !powered && !apcReceiver.PowerDisabled;
+
+                if (requireBattery)
+                {
+                    _battery.SetCharge(uid, battery.CurrentCharge - apcBattery.IdleLoad * frameTime, battery);
+                }
+                else if (powered && !_battery.IsFull(uid, battery))
+                {
+                    apcReceiver.Load += apcBattery.BatteryRechargeRate * apcBattery.BatteryRechargeEfficiency;
+                    _battery.SetCharge(uid, battery.CurrentCharge + apcBattery.BatteryRechargeRate * frameTime, battery);
+                }
+
+                var enableBattery = requireBattery && battery.CurrentCharge > 0;
+
+                if (apcBattery.Enabled != enableBattery)
+                {
+                    apcBattery.Enabled = enableBattery;
+                    metadata = MetaData(uid);
+                    Dirty(uid, apcBattery, metadata);
+
+                    var apcBatteryEv = new ApcPowerReceiverBatteryChangedEvent(enableBattery);
+                    RaiseLocalEvent(uid, ref apcBatteryEv);
+
+                    _appearance.SetData(uid, PowerDeviceVisuals.BatteryPowered, enableBattery);
+                }
+
+                powered |= enableBattery;
+            }
+
+            if (!apcReceiver.Recalculate && apcReceiver.Powered == powered)
+                return;
+
+            metadata ??= MetaData(uid);
+            if (Paused(uid, metadata))
+                return;
+
+            apcReceiver.Recalculate = false;
+            apcReceiver.Powered = powered;
+            Dirty(uid, apcReceiver, metadata);
+
+            var ev = new PowerChangedEvent(powered, apcReceiver.NetworkLoad.ReceivingPower);
+            RaiseLocalEvent(uid, ref ev);
+        }
+
+        private void UpdatePowerConsumerSingle(EntityUid uid, PowerConsumerComponent consumer)
+        {
+            var mapId = Transform(uid).MapUid;
+            var isAlwaysPowered = HasComp<AlwaysPoweredMapComponent>(mapId);
+
+            var newRecv = isAlwaysPowered ? consumer.DrawRate : consumer.NetworkLoad.ReceivingPower;
+            ref var lastRecv = ref consumer.LastReceived;
+            if (MathHelper.CloseToPercent(lastRecv, newRecv))
+                return;
+
+            lastRecv = newRecv;
+            var msg = new PowerConsumerReceivedChanged(newRecv, consumer.DrawRate);
+            RaiseLocalEvent(uid, ref msg);
+        }
+
+        private void UpdateNetworkBatterySingle(EntityUid uid, PowerNetworkBatteryComponent powerNetBattery)
+        {
+            var mapId = Transform(uid).MapUid;
+            var isAlwaysPowered = HasComp<AlwaysPoweredMapComponent>(mapId);
+
+            var lastSupply = powerNetBattery.LastSupply;
+            var currentSupply = isAlwaysPowered ? powerNetBattery.MaxSupply : powerNetBattery.CurrentSupply;
+
+            if (lastSupply == 0f && currentSupply != 0f)
+            {
+                var ev = new PowerNetBatterySupplyEvent(true);
+                RaiseLocalEvent(uid, ref ev);
+            }
+            else if (lastSupply > 0f && currentSupply == 0f)
+            {
+                var ev = new PowerNetBatterySupplyEvent(false);
+                RaiseLocalEvent(uid, ref ev);
+            }
+
+            powerNetBattery.LastSupply = currentSupply;
         }
 
         private void ReconnectNetworks()
@@ -318,122 +429,17 @@ namespace Content.Server.Power.EntitySystems
             _powerNetReconnectQueue.Clear();
         }
 
-        private void UpdateApcPowerReceiver(float frameTime)
+        private bool IsPoweredCalculate(ApcPowerReceiverComponent comp)
         {
-            var enumerator = AllEntityQuery<ApcPowerReceiverComponent>();
-            while (enumerator.MoveNext(out var uid, out var apcReceiver))
-            {
-                var mapId = Transform(uid).MapUid;
-                var isAlwaysPowered = HasComp<AlwaysPoweredMapComponent>(mapId);
-
-                var powered = isAlwaysPowered || (!apcReceiver.PowerDisabled
-                              && (!apcReceiver.NeedsPower
-                                  || MathHelper.CloseToPercent(apcReceiver.NetworkLoad.ReceivingPower,
-                                      apcReceiver.Load)));
-
-                MetaDataComponent? metadata = null;
-
-                // TODO: If we get archetypes would be better to split this out.
-                // Check if the entity has an internal battery
-                if (_apcBatteryQuery.TryComp(uid, out var apcBattery) && _batteryQuery.TryComp(uid, out var battery))
-                {
-                    apcReceiver.Load = apcBattery.IdleLoad;
-
-                    // Try to draw power from the battery if there isn't sufficient external power
-                    var requireBattery = !powered && !apcReceiver.PowerDisabled;
-
-                    if (requireBattery)
-                    {
-                        _battery.SetCharge(uid, battery.CurrentCharge - apcBattery.IdleLoad * frameTime, battery);
-                    }
-                    // Otherwise try to charge the battery
-                    else if (powered && !_battery.IsFull(uid, battery))
-                    {
-                        apcReceiver.Load += apcBattery.BatteryRechargeRate * apcBattery.BatteryRechargeEfficiency;
-                        _battery.SetCharge(uid, battery.CurrentCharge + apcBattery.BatteryRechargeRate * frameTime, battery);
-                    }
-
-                    // Enable / disable the battery if the state changed
-                    var enableBattery = requireBattery && battery.CurrentCharge > 0;
-
-                    if (apcBattery.Enabled != enableBattery)
-                    {
-                        apcBattery.Enabled = enableBattery;
-                        metadata = MetaData(uid);
-                        Dirty(uid, apcBattery, metadata);
-
-                        var apcBatteryEv = new ApcPowerReceiverBatteryChangedEvent(enableBattery);
-                        RaiseLocalEvent(uid, ref apcBatteryEv);
-
-                        _appearance.SetData(uid, PowerDeviceVisuals.BatteryPowered, enableBattery);
-                    }
-
-                    powered |= enableBattery;
-                }
-
-                // If new value is the same as the old, then exit
-                if (!apcReceiver.Recalculate && apcReceiver.Powered == powered)
-                    continue;
-
-                metadata ??= MetaData(uid);
-                if (Paused(uid, metadata))
-                    continue;
-
-                apcReceiver.Recalculate = false;
-                apcReceiver.Powered = powered;
-                Dirty(uid, apcReceiver, metadata);
-
-                var ev = new PowerChangedEvent(powered, apcReceiver.NetworkLoad.ReceivingPower);
-                RaiseLocalEvent(uid, ref ev);
-
-                if (_appearanceQuery.TryComp(uid, out var appearance))
-                    _appearance.SetData(uid, PowerDeviceVisuals.Powered, powered, appearance);
-            }
+            return !comp.PowerDisabled
+                   && (!comp.NeedsPower
+                       || MathHelper.CloseToPercent(comp.NetworkLoad.ReceivingPower,
+                           comp.Load));
         }
 
-        private void UpdatePowerConsumer()
+        public override bool IsPoweredCalculate(SharedApcPowerReceiverComponent comp)
         {
-            var enumerator = EntityQueryEnumerator<PowerConsumerComponent>();
-            while (enumerator.MoveNext(out var uid, out var consumer))
-            {
-                var mapId = Transform(uid).MapUid;
-                var isAlwaysPowered = HasComp<AlwaysPoweredMapComponent>(mapId);
-
-                var newRecv = isAlwaysPowered ? consumer.DrawRate : consumer.NetworkLoad.ReceivingPower;
-                ref var lastRecv = ref consumer.LastReceived;
-                if (MathHelper.CloseToPercent(lastRecv, newRecv))
-                    continue;
-
-                lastRecv = newRecv;
-                var msg = new PowerConsumerReceivedChanged(newRecv, consumer.DrawRate);
-                RaiseLocalEvent(uid, ref msg);
-            }
-        }
-
-        private void UpdateNetworkBattery()
-        {
-            var enumerator = EntityQueryEnumerator<PowerNetworkBatteryComponent>();
-            while (enumerator.MoveNext(out var uid, out var powerNetBattery))
-            {
-                var mapId = Transform(uid).MapUid;
-                var isAlwaysPowered = HasComp<AlwaysPoweredMapComponent>(mapId);
-
-                var lastSupply = powerNetBattery.LastSupply;
-                var currentSupply = isAlwaysPowered ? powerNetBattery.MaxSupply : powerNetBattery.CurrentSupply;
-
-                if (lastSupply == 0f && currentSupply != 0f)
-                {
-                    var ev = new PowerNetBatterySupplyEvent(true);
-                    RaiseLocalEvent(uid, ref ev);
-                }
-                else if (lastSupply > 0f && currentSupply == 0f)
-                {
-                    var ev = new PowerNetBatterySupplyEvent(false);
-                    RaiseLocalEvent(uid, ref ev);
-                }
-
-                powerNetBattery.LastSupply = currentSupply;
-            }
+            return IsPoweredCalculate((ApcPowerReceiverComponent)comp);
         }
 
         private void AllocLoad(PowerState.Load load)
