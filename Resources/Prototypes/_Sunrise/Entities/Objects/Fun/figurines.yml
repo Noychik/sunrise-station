@@ -21,3 +21,51 @@
     state: enforcementofficer
   - type: SpeakOnTrigger
     pack: FigurinesEnforcementofficer
+
+- type: entity
+  parent: BaseFigurine
+  id: ToyFigurineBrigmedic
+  name: Brigmedic figure
+  description: EMPTY   #fix
+  components:
+  - type: Sprite
+    sprite: _Sunrise/Objects/Fun/figurines.rsi
+    state: brigmedic
+  - type: SpeakOnTrigger
+    pack: FigurinesBrigmedic
+
+- type: entity
+  parent: BaseFigurine
+  id: ToyFigurineCburn
+  name: Cburn figure
+  description: EMPTY    #fix
+  components:
+  - type: Sprite
+    sprite: _Sunrise/Objects/Fun/figurines.rsi
+    state: cburn
+  - type: SpeakOnTrigger
+    pack: FigurinesCburn
+
+- type: entity
+  parent: BaseFigurine
+  id: ToyFigurineDeathsquad
+  name: Deathsquad figure
+  description: EMPTY   #fix
+  components:
+  - type: Sprite
+    sprite: _Sunrise/Objects/Fun/figurines.rsi
+    state: deathsquad
+  - type: SpeakOnTrigger
+    pack: FigurinesDeathsquad
+
+- type: entity
+  parent: BaseFigurine
+  id: ToyFigurineErt
+  name: Ert leader figure
+  description: EMPTY   #fix
+  components:
+  - type: Sprite
+    sprite: _Sunrise/Objects/Fun/figurines.rsi
+    state: ert
+  - type: SpeakOnTrigger
+    pack: FigurinesErt
