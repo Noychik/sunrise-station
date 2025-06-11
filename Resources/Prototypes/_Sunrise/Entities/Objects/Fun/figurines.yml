@@ -26,7 +26,7 @@
   parent: BaseFigurine
   id: ToyFigurineBrigmedic
   name: Brigmedic figure
-  description: EMPTY   #fix
+  description: A figurine depicting a brigmedic. Seems like you'd rather die than have to explain to him how you got your injuries.
   components:
   - type: Sprite
     sprite: _Sunrise/Objects/Fun/figurines.rsi
@@ -38,7 +38,7 @@
   parent: BaseFigurine
   id: ToyFigurineCburn
   name: Cburn figure
-  description: EMPTY    #fix
+  description: A figurine depicting the station's defenders against... viruses?
   components:
   - type: Sprite
     sprite: _Sunrise/Objects/Fun/figurines.rsi
@@ -50,7 +50,7 @@
   parent: BaseFigurine
   id: ToyFigurineDeathsquad
   name: Deathsquad figure
-  description: EMPTY   #fix
+  description: A figurine depicting.... Who's that?
   components:
   - type: Sprite
     sprite: _Sunrise/Objects/Fun/figurines.rsi
@@ -62,7 +62,7 @@
   parent: BaseFigurine
   id: ToyFigurineErt
   name: Ert leader figure
-  description: EMPTY   #fix
+  description: A figurine depicting the station's defenders from..... I don't know, just in case?
   components:
   - type: Sprite
     sprite: _Sunrise/Objects/Fun/figurines.rsi
