@@ -12,6 +12,9 @@
     },
     {
         "name": "mecha_trashlasergun"
+    },
+    {
+        "name": "repair_drone"
     }
   ]
 }

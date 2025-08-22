@@ -1,0 +1,22 @@
+- type: entity
+  id: MechEquipmentRepairDrone
+  parent: [ BaseMechEquipment ]
+  name: repair drone
+  description:
+  components:
+  - type: Sprite
+    sprite: _Sunrise/Objects/Specific/Mech/mecha_equipment.rsi
+    state: repair_drone
+  - type: Item
+#    inhandVisuals:
+#      left:
+#      - state: inhand-left-big
+#      right:
+#      - state: inhand-right-big
+  - type: MultiHandedItem
+#  - type: MechGrabber
+#  - type: UIFragment
+#    ui: !type:MechGrabberUi
+#  - type: ContainerContainer
+#    containers:
+#      item-container: !type:Container
