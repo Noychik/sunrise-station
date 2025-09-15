@@ -46,6 +46,9 @@
 - type: Tag
   id: CreepyLaugh
 
+- type: Tag
+  id: TrayScanner
+
 # Catridges:
 
 - type: Tag
@@ -99,6 +102,9 @@
 
 - type: Tag
   id: UpgradeVestSec
+
+- type: Tag
+  id: GorillaUpgradeKit
 
 # Magazines:
 - type: Tag

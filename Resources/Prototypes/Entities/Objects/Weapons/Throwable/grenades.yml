@@ -100,6 +100,7 @@
       path: "/Audio/_Sunrise/flashbang.ogg" # Sunrise-Edit
       params:
         volume: 20
+    positional: true
   - type: DeleteOnTrigger
     keysIn:
     - timer
@@ -185,13 +186,6 @@
         volume: 12
   - type: StaticPrice
     price: 2000
-  - type: CartridgeAmmo #Sunrise-Start
-    proto: BulletSyndieMiniBomb
-    deleteOnSpawn: true
-  - type: SpentAmmoVisuals
-  - type: Tag
-    tags:
-    - HandGrenadeAmmo #Sunrise-End
 
 - type: entity
   name: self destruct
@@ -281,6 +275,7 @@
           path: /Audio/Effects/Grenades/Supermatter/supermatter_end.ogg
           params:
             volume: 5
+        positional: true
         keysIn:
         - stageTwo
       - type: DeleteOnTrigger
@@ -496,10 +491,13 @@
     duration: 45 # Sunrise-Edit
     spreadAmount: 50
   - type: EmitSoundOnTrigger
+    keysIn:
+    - timer
     sound:
       path: /Audio/_Sunrise/sg_explode.ogg # Sunrise-Edit
       params:
         volume: 15
+    positional: true
   - type: DeleteOnTrigger
     keysIn:
     - timer
@@ -627,6 +625,13 @@
         enabled:
           True: { state: active }
           False: { state: spent }
+  - type: CartridgeAmmo #Sunrise-Start
+    proto: BulletAirGrenade
+    deleteOnSpawn: true
+  - type: SpentAmmoVisuals
+  - type: Tag
+    tags:
+    - HandGrenadeAmmo #Sunrise-End
 
 # Non-explosive "dummy" grenades to use as a distraction.
 
@@ -651,6 +656,7 @@
     - timer
     sound:
       path: /Audio/Effects/Emotes/parp1.ogg
+    positional: true
   - type: Appearance
   - type: TimerTrigger
     beepSound:
@@ -675,6 +681,7 @@
     - timer
     sound:
       path: /Audio/Effects/Emotes/parp1.ogg
+    positional: true
   - type: Appearance
   - type: TimerTriggerVisuals
     primingSound:
